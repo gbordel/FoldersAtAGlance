@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+The MIT License
+
+Copyright 2017 gbord.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<html>
+    <head>
+        <title>Info Folders-at-a-glance version beta.0</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {width:600px;margin:5px 2em}
+        </style>
+    </head>
+    <body>
+        <h1>Folders-at-a-glance</h1>
+        <h2>version beta.0</h2>
+        <div>
+            <p>The aim of the application is to provide direct access to folders in the file system by a fully customizable 2D image of it.
+            The rationale is to allow to see in a blink of an eye just the most salient folfers for you and to be able to open the desired one with a click.</p>
+            <p>The folders are displayed as rounded rectangles that can be situated in any place of the 2D app area and can be colored to highlihgt different "clusters" of them.
+                Relationships between folders (in the tree structure of the file system) are shown by means of connecting directed lines (form ancestors to descendents), where
+                solid ones represent direct relation and dashed ones represents a gap in between</p>
+            <p>Funcionality:</p>
+            <ul>
+                <li>CLICK: Clicking on a folder will open the file system explorer in the corresponding folder, and iconify the app</li>
+                <li>LOAD/SAVE: The configuration is load-from/saved-to a file at user-home-folder/AppData/Local/FAAG_Config.xml. 
+                    Both actions are available at the context menus, and "save" is always a user decision. If changes are made, the user is warned before the app closes.
+                    If the configuration file is not present, the app will show all the roots of the file system. </li>
+                <li>DRAGGING FOLDERS : You can change a folder placement by dragging it using the mouse. If you press "CTL" key simultaneously, all the subtree will be dragged.</li>
+                <li>CHANGING COLORS: the folder context menu gives option to change its text and background colors. Another menu option allows propagate these colors to all the subtrie.</li>
+                <li>SHOWING NEW FOLDERS: the folder context menu gives option to open a filechooser and do a multiple selection of folders to be included in the app.
+                    They appear overlapped to the original folder in a cascade placement, to be manually distributed by the user.
+                    (In fact you can browse to a completely different point in the file system to select any set of folders and they will be displayed consistentely)</li>
+                <li>HIDING FOLDERS: the folder context menu gives options to eliminate a folder or a whole subtree of folders from the display</li>
+                <li>CHANGING THE LABEL: Initially the folder labels correspond to their names in the file system, but you can chage it through the folder context menu.</li>
+                <li>HIGHLIGHTING/SEARCHING FOLDERS: You can write into the textfield in the upper right corner. All the folders than do not contain the text you enter are darkened.</li>
+            </ul>
+        </div>
+        <div>
+            <h2>TODO list</h2>  
+             <ul>
+                 <li>This app is crying out for a change from Swing to FX</li>
+                 <li>Multiple folder selection to apply apply changes.</li>
+                 <li>Undo/redo</li>
+                 <li>Auto-placement alternatives</li>
+             </ul>
+         </div>
+    </body>
+</html>

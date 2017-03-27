@@ -21,6 +21,25 @@
         </dependency>
     </dependencies>
 
-    
+     <build>
+         <plugins>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-jar-plugin</artifactId>
+                 <version>2.6</version>
+                 <configuration>
+                     <archive>
+                         <manifest>
+                             <addClasspath>true</addClasspath>
+                             <mainClass>edu.upvehu.gbg.faag.Faag</mainClass>
+                         </manifest>
+                         <manifestEntries>
+                             <SplashScreen-Image>images/splash.png</SplashScreen-Image>
+                         </manifestEntries>
+                     </archive>
+                 </configuration>
+             </plugin>
+         </plugins>
+     </build>
     
 </project>
