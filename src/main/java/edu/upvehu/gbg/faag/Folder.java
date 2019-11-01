@@ -53,12 +53,11 @@ class Folder implements Serializable, Comparable<Folder>, Cloneable{
 
     @Override
     protected Folder clone() throws CloneNotSupportedException {
-        return (Folder)super.clone(); 
+        return (Folder)super.clone();
     }
-        
+
     String toXML(){
         return "<Folder"
-                //+ " label=\""+StringEscapeUtils.escapeXml11(folder.substring(folder.lastIndexOf("\\")+1))+"\""
                 + " label=\""+StringEscapeUtils.escapeXml(label)+"\""
                 + " folder=\""+StringEscapeUtils.escapeXml(folder.replace('\\', '/'))+"\""
                 + " bgColor=\""+NamedColor.getColorNameorHEx(bgColor)+"\""
@@ -76,7 +75,7 @@ class Folder implements Serializable, Comparable<Folder>, Cloneable{
     public boolean isInside(Point p) {
         return x < p.getX() && y < p.getY() && x + width > p.getX() && y + height > p.getY();
     }
-    
+
     int generationalGap(Folder relative) {
         String thisFolder=folder, relativeFolder=relative.folder;
         while (thisFolder.endsWith("/")) thisFolder=thisFolder.substring(0,thisFolder.length()-1);
@@ -111,5 +110,4 @@ class Folder implements Serializable, Comparable<Folder>, Cloneable{
             return false;
         return true;
     }
-    
 }

@@ -23,15 +23,14 @@
  */
 package edu.upvehu.gbg.faag;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -44,23 +43,21 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author germán bordel
  */
 class Config {
-    private static final String CONFIG_FILENAME=System.getProperty("user.home").replace('\\','/')+"/AppData/Local/FAAG_Config.xml";
-    
-    
+    private static final String CONFIG_FILENAME=System.getProperty("user.home").replace('\\','/')+"/AppData/Local/Faag/FAAG_Config.xml";
+
     int width, height;
-    List<Folder> folders;
-    
+    Set<Folder> folders;
+
     Config(){ width=height=Integer.MIN_VALUE;}
 
-    public Config(int width, int height, List<Folder> folders) {
+    public Config(int width, int height, Set<Folder> folders) {
         this.width = width;
         this.height = height;
         this.folders = folders;
     }
-    
-    
+
     static void loadFromXML(Config config) {
-        config.folders=new ArrayList<>();
+        config.folders=new TreeSet<>();
         try {
             SAXParser sp=SAXParserFactory.newInstance().newSAXParser();
             sp.parse(new FileInputStream(CONFIG_FILENAME),new DefaultHandler(){
@@ -86,19 +83,13 @@ class Config {
                 }
             });
         } catch (ParserConfigurationException | SAXException | IOException ex) {
-        } finally {   
+        } finally {
             if (config.width==Integer.MIN_VALUE) config.width=400;
             if (config.height==Integer.MIN_VALUE) config.height=300;
-            int x=10, y=10;
-            if (config.folders.size()==0) 
-                for (File f:File.listRoots())
-                    try {
-                        config.folders.add(new Folder(f.getCanonicalPath().replace('\\','/'),f.getCanonicalPath().replace('\\','/'),Color.lightGray,Color.black,x+=10,y+=10));
-                    } catch (IOException ignore) {}
         }
     }
-    
-    static void saveToXML(Config config) {            
+
+    static void saveToXML(Config config) {
         String dir=CONFIG_FILENAME.substring(0,CONFIG_FILENAME.lastIndexOf("/"));
         try {
             secureThePath(dir);
@@ -107,13 +98,13 @@ class Config {
             return;
         }
         try (PrintStream ps = new PrintStream(new FileOutputStream(CONFIG_FILENAME));)
-        {                                
+        {
             ps.printf("<?xml version=\"1.1\" encoding=\"UTF-8\"?>\n<Folders width=\"%d\" height=\"%d\">\n",config.width,config.height);
             for (Folder f:config.folders) ps.printf("\t%s\n",f.toXML());
             ps.printf("</Folders>\n");
         } catch (FileNotFoundException ignore) {/*checked in advance*/}
     }
-    
+
     static void secureThePath(String path) throws IOException {
         String dir=path;
         while (!new File(dir).exists())  dir=dir.substring(0,dir.lastIndexOf("/"));
@@ -124,6 +115,4 @@ class Config {
             new File(dir).mkdir();
         }
     }
-    
-    
 }

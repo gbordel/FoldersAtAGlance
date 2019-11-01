@@ -32,22 +32,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
     //TODO implement undo/redo
-    
+
 /**
  *
  * @author German Bordel
  */
 public class Faag {
-    
+
      /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels())
@@ -59,9 +59,9 @@ public class Faag {
             java.util.logging.Logger.getLogger(FaagGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //Time for the splash screen
-        try {Thread.sleep(2000);} catch (InterruptedException ignore) {}
+        try {Thread.sleep(1500);} catch (InterruptedException ignore) {}
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
@@ -83,28 +83,15 @@ class Info {
     private Info(){};
     static String getInfo() {
         if (info!= null) return info;
-        
+
         try {
             return  info = new String(Files.readAllBytes(Paths.get(Info.class.getResource("/html/info.html").toURI())), StandardCharsets.UTF_8);
         } catch (URISyntaxException | java.nio.file.FileSystemNotFoundException | IOException  ex) {
            ex.printStackTrace();
            return "<html><head><title>ERROR</title> </head><body><h1>Folders-at-a-glance</h1><h2>Sorry, Error reading the info file.</h2></body></html>";
         }
-        
-        
-        
-        
-//        try {
-//            System.out.println(Info.class.getClassLoader().getResourceAsStream("/html/info.html"));
-//            BufferedReader br=new BufferedReader(new InputStreamReader(Info.class.getr.getClassLoader().getResourceAsStream("/html/info.html")));
-//            StringBuffer sb=new StringBuffer();
-//            for(String linea=br.readLine();linea!=null;linea=br.readLine()) sb.append(linea);
-//            return sb.toString();
-//        } catch (IOException  ex) {
-//           return "<html><head><title>ERROR</title> </head><body><h1>Folders-at-a-glance</h1><h2>Sorry, Error reading the info file.</h2></body></html>";
-//        }
     }
-    
+
     //Path.get(URI) does not work properly for this case, so this is a workaroud
     static Path uriToPath(URI uri) throws URISyntaxException {
     String scheme = uri.getScheme();
@@ -115,5 +102,4 @@ class Info {
         if (sep != -1) spec = spec.substring(0, sep);
         return Paths.get(new URI(spec.substring(1))).toAbsolutePath();
     }
-
 }
