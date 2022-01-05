@@ -23,13 +23,17 @@
  */
 package edu.upvehu.gbg.faag;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
     //TODO implement undo/redo
 
@@ -38,11 +42,19 @@ import java.nio.file.Paths;
  * @author German Bordel
  */
 public class Faag {
+    static Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private static final String LOG_FILENAME=System.getProperty("user.home").replace('\\','/')+"/AppData/Local/Faag/FAAG_log.txt";
 
      /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        logger.setLevel(Level.INFO);
+        try {
+          FileHandler fh=new FileHandler(LOG_FILENAME);
+          fh.setFormatter(new SimpleFormatter());
+          logger.addHandler(fh);
+        } catch (IOException | SecurityException ignore) { /*if no logger, error messages will be shown in Dialog windows*/  }
 
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -69,9 +81,7 @@ public class Faag {
                 try {
                     FaagGUI.newInstance();
                 } catch (Exception ex) {
-                    System.err.println("Sorry, something went wrong");
-                    System.err.println(ex.getMessage());
-                    ex.printStackTrace();
+                    logger.logp(Level.SEVERE, "Faag.java", "main", "Unable to run the GUI", ex);
                 }
             }
         });
@@ -84,9 +94,12 @@ class Info {
     static String getInfo() {
         if (info!= null) return info;
 
-        try {
-            return  info = new String(Files.readAllBytes(Paths.get(Info.class.getResource("/html/info.html").toURI())), StandardCharsets.UTF_8);
-        } catch (URISyntaxException | java.nio.file.FileSystemNotFoundException | IOException  ex) {
+         try { 
+            BufferedReader reader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream("html/info.html")));
+            {info="";String linea;while ((linea=reader.readLine())!=null) info+=linea+"\n";}
+            return info;
+        } catch (IOException | NullPointerException ex) {
+           Faag.logger.logp(Level.SEVERE, "Info.java", "getInfo", "Unable to get the info file", ex);
            ex.printStackTrace();
            return "<html><head><title>ERROR</title> </head><body><h1>Folders-at-a-glance</h1><h2>Sorry, Error reading the info file.</h2></body></html>";
         }
